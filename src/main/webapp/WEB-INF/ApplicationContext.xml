@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+	default-init-method="inicializa" default-destroy-method="destruye">
+
+<!--  
+
+
+	<bean id="persona1" class="com.spring.entidad.Persona">
+		<property name="id" value="1" />
+		<property name="nombre" value="maxi" />
+		<property name="apellido" value="guzman" />
+		<property name="edad" value="3" />
+		<property name="materia" ref="materia" />
+	</bean>
+
+	<bean id="persona2" class="com.spring.entidad.Persona">
+		<property name="id" value="1" />
+		<property name="nombre" value="ivan" />
+		<property name="apellido" value="apaza" />
+		<property name="edad" value="3" />
+		<property name="materia" ref="materia" />		
+	</bean>
+	
+	<bean id="persona3" class="com.spring.entidad.Persona">
+		<property name="id" value="1" />
+		<property name="nombre" value="sergio" />
+		<property name="apellido" value="cobreloa" />
+		<property name="edad" value="3" />
+		<property name="materia" ref="materia" />		
+	</bean>
+
+	<bean id="materia" class="com.spring.entidad.Materia">
+		<property name="id" value="1" />
+		<property name="nombre" value="Matematica" />
+		<property name="horas" value="40" />
+	</bean>
+
+	<bean id="service" class="com.spring.service.PersonaServiceImp">
+		<property name="personas">
+		    <list>
+		     <ref bean="persona1" />
+		     <ref bean="persona2" />
+		     <ref bean="persona3" />
+		    </list>
+		</property>
+	</bean>
+
+	<bean id="controller" class="com.spring.controller.PersonaController" >
+		        <constructor-arg ref="service"/>
+	</bean>
+	-->
+	     
+     
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/springdb" />
+        <property name="username" value="root" />
+        <property name="password" value="admin" />
+    </bean>
+     
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="myPersistenceUnit" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL8Dialect" />
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true" />
+            </bean>
+        </property>
+    </bean>
+     
+    <context:annotation-config/>
+    
+    <tx:annotation-driven />
+      
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+   
+    <context:component-scan base-package="com.spring.*" />
+
+	<bean id="service" class="com.spring.service.AutoServiceImp">
+	
+	</bean>
+
+</beans>
